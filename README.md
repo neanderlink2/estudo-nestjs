@@ -38,6 +38,9 @@ $ npm install
 # development
 $ npm run start
 
+# Executar pelo docker-compose
+$ npm run start:docker
+
 # watch mode
 $ npm run start:dev
 
