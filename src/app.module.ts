@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { join } from 'node:path';
+import { join } from 'path';
 import { ContasBancariasModule } from './contas-bancarias/contas-bancarias.module';
 import { DependentesModule } from './dependentes/dependentes.module';
 import { PessoasModule } from './pessoas/pessoas.module';
