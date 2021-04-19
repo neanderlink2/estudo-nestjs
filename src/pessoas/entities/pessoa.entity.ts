@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from "typeorm";
-import { BaseEntity } from "../../bases/entity";
-import { TipoDocumento } from "../../bases/tipoDocumento";
+import { BaseEntity } from "../../common/entity";
+import { TipoDocumento } from "../../common/tipoDocumento";
 import { Dependente } from "../../dependentes/entities/dependente.entity";
 
 @Entity()
@@ -34,8 +34,6 @@ export class Pessoa extends BaseEntity {
     @Column({ nullable: true })
     biografia?: string;
 
-    @OneToMany(_ => Dependente, dep => dep.responsavel, {
-        eager: true
-    })
+    @OneToMany(_ => Dependente, dep => dep.responsavel)
     dependentes: Dependente[]
 }

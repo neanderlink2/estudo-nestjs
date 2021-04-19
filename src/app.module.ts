@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'node:path';
+import { ContasBancariasModule } from './contas-bancarias/contas-bancarias.module';
 import { DependentesModule } from './dependentes/dependentes.module';
 import { PessoasModule } from './pessoas/pessoas.module';
 
@@ -15,8 +18,12 @@ import { PessoasModule } from './pessoas/pessoas.module';
             autoLoadEntities: true,
             synchronize: true,
         }),
+        GraphQLModule.forRoot({
+            autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+        }),
         PessoasModule,
-        DependentesModule
+        DependentesModule,
+        ContasBancariasModule
     ],
 })
 export class AppModule { }

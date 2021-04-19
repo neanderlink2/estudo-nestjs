@@ -15,13 +15,13 @@ export class PessoasController {
   }
 
   @Get()
-  findAll() {
-    return this.pessoasService.findAll();
+  async findAll() {
+    return await this.pessoasService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pessoasService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.pessoasService.findOne(+id);
   }
 
   @Patch(':id')

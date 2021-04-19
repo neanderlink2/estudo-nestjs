@@ -12,8 +12,8 @@ export class PessoasService {
     private readonly pessoasRepository: Repository<Pessoa>
   ) { }
 
-  create(dto: CreatePessoaDto) {
-    return this.pessoasRepository.save(dto);
+  async create(dto: CreatePessoaDto) {
+    return await this.pessoasRepository.save(dto);
   }
 
   findAll() {

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Pessoa } from '../pessoas/entities/pessoa.entity';
+import { CriarDependenteCommand } from './commands/criarDependente.command';
 import { CreateDependenteDto } from './dto/create-dependente.dto';
 import { UpdateDependenteDto } from './dto/update-dependente.dto';
 import { Dependente } from './entities/dependente.entity';
@@ -11,19 +12,11 @@ export class DependentesService {
   constructor(
     @InjectRepository(Dependente)
     private readonly dependentesRepository: Repository<Dependente>,
-    @InjectRepository(Pessoa)
-    private readonly pessoasRepository: Repository<Pessoa>
+    private readonly commandBus: CommandBus
   ) { }
 
   async create(dto: CreateDependenteDto) {
-    const pessoa = await this.pessoasRepository.findOne(dto.responsavelId);
-    if (!pessoa) {
-      return null;
-    }
-    return this.dependentesRepository.save({
-      nome: dto.nome,
-      responsavel: pessoa
-    });
+    return this.commandBus.execute(new CriarDependenteCommand(dto.nome, dto.responsavelId));
   }
 
   findAll() {
