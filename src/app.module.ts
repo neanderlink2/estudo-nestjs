@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { join } from 'path';
-import { ContasBancariasModule } from './contas-bancarias/contas-bancarias.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { DependentesModule } from './dependentes/dependentes.module';
 import { PessoasModule } from './pessoas/pessoas.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 
 @Module({
     imports: [
@@ -18,12 +19,14 @@ import { PessoasModule } from './pessoas/pessoas.module';
             autoLoadEntities: true,
             synchronize: true,
         }),
-        GraphQLModule.forRoot({
-            autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-        }),
         PessoasModule,
         DependentesModule,
-        ContasBancariasModule
+        AuthModule,
+        UsuariosModule
     ],
+    providers: [{
+        provide: APP_GUARD,
+        useClass: JwtAuthGuard,
+    }]
 })
 export class AppModule { }
